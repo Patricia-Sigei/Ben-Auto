@@ -1,0 +1,24 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Inter", sans-serif;
+}
+
+h1, h2, h3, .font-display {
+  font-family: "Playfair Display", serif;
+}
+
+::selection {
+  background-color: #c9a24b;
+  color: #0a0a0b;
+}
+
+.input-field {
+  @apply bg-charcoal-800 border border-charcoal-600 rounded-sm px-3.5 py-2.5 text-sm text-ivory placeholder:text-ivory/40 focus:outline-none focus:border-accent transition-colors;
+}
