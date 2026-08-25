@@ -60,8 +60,7 @@ export default function Footer() {
         </div>
       </div>
       <div className="border-t border-charcoal-700 py-5 text-center text-xs text-ivory/40">
-        © {new Date().getFullYear()} BenLink Imports (Demo). All rights
-        reserved.
+        © {new Date().getFullYear()} BenLink Imports. All rights reserved.
       </div>
     </footer>
   );
