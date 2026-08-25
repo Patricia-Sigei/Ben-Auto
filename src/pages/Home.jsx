@@ -44,18 +44,27 @@ export default function Home() {
         />
         <div className="absolute inset-0 bg-gradient-to-t from-charcoal-950 via-charcoal-950/60 to-charcoal-950/20" />
         <div className="relative max-w-7xl mx-auto px-5 md:px-8 animate-fade-in">
-          <p className="text-accent tracking-[0.2em] text-sm uppercase mb-4">Prestige Motors — Kenya</p>
+          <p className="text-accent tracking-[0.2em] text-sm uppercase mb-4">
+            BenLink Imports — Kenya
+          </p>
           <h1 className="font-display text-4xl md:text-6xl lg:text-7xl leading-tight max-w-3xl">
             Drive Something Exceptional
           </h1>
           <p className="text-ivory/70 mt-6 max-w-xl text-lg">
-            Curated vehicles and bespoke import services for discerning buyers across Kenya.
+            Curated vehicles and bespoke import services for discerning buyers
+            across Kenya.
           </p>
           <div className="flex flex-wrap gap-4 mt-10">
-            <Link to="/cars" className="bg-accent text-charcoal-950 font-medium px-7 py-3.5 rounded-sm hover:bg-accent-light transition-colors">
+            <Link
+              to="/cars"
+              className="bg-accent text-charcoal-950 font-medium px-7 py-3.5 rounded-sm hover:bg-accent-light transition-colors"
+            >
               Explore Cars
             </Link>
-            <Link to="/consultation" className="border border-ivory/30 px-7 py-3.5 rounded-sm hover:border-accent hover:text-accent transition-colors">
+            <Link
+              to="/consultation"
+              className="border border-ivory/30 px-7 py-3.5 rounded-sm hover:border-accent hover:text-accent transition-colors"
+            >
               Request Consultation
             </Link>
           </div>
@@ -70,18 +79,30 @@ export default function Home() {
             className="grid grid-cols-2 md:grid-cols-5 gap-4"
             onSubmit={(e) => {
               e.preventDefault();
-              const params = new URLSearchParams(new FormData(e.target)).toString();
+              const params = new URLSearchParams(
+                new FormData(e.target),
+              ).toString();
               window.location.href = `/cars?${params}`;
             }}
           >
             <input name="make" placeholder="Make" className="input-field" />
             <input name="model" placeholder="Model" className="input-field" />
-            <input name="maxPrice" placeholder="Max Price (KES)" className="input-field" />
-            <input name="minYear" placeholder="Min Year" className="input-field" />
+            <input
+              name="maxPrice"
+              placeholder="Max Price (KES)"
+              className="input-field"
+            />
+            <input
+              name="minYear"
+              placeholder="Min Year"
+              className="input-field"
+            />
             <select name="bodyType" className="input-field">
               <option value="">Body Type</option>
               {categories.map((c) => (
-                <option key={c.id} value={c.slug}>{c.name}</option>
+                <option key={c.id} value={c.slug}>
+                  {c.name}
+                </option>
               ))}
             </select>
             <button className="col-span-2 md:col-span-5 bg-accent text-charcoal-950 font-medium py-3 rounded-sm hover:bg-accent-light transition-colors">
@@ -95,10 +116,14 @@ export default function Home() {
       <section className="max-w-7xl mx-auto px-5 md:px-8 mt-24">
         <div className="flex items-end justify-between mb-8">
           <div>
-            <p className="text-accent text-sm tracking-widest uppercase mb-2">Handpicked</p>
+            <p className="text-accent text-sm tracking-widest uppercase mb-2">
+              Handpicked
+            </p>
             <h2 className="font-display text-3xl">Featured Vehicles</h2>
           </div>
-          <Link to="/cars" className="text-sm text-accent hover:underline">View all cars →</Link>
+          <Link to="/cars" className="text-sm text-accent hover:underline">
+            View all cars →
+          </Link>
         </div>
 
         {loading && <LoadingGrid />}
@@ -126,7 +151,9 @@ export default function Home() {
               className="bg-charcoal-900 border border-charcoal-700 rounded-md p-6 text-center hover:border-accent/60 transition-colors"
             >
               <span className="text-3xl block mb-2">{icon}</span>
-              <span className="text-sm capitalize">{slug.replace("-", " / ")}</span>
+              <span className="text-sm capitalize">
+                {slug.replace("-", " / ")}
+              </span>
             </Link>
           ))}
         </div>
@@ -135,9 +162,18 @@ export default function Home() {
       {/* Why choose us */}
       <section className="max-w-7xl mx-auto px-5 md:px-8 mt-24 grid md:grid-cols-3 gap-8">
         {[
-          { title: "Curated Inventory", copy: "Every vehicle is inspected and verified before listing." },
-          { title: "Import Expertise", copy: "End-to-end vehicle importation, handled for you." },
-          { title: "Personal Consultation", copy: "Speak to a specialist — no pressure, just guidance." },
+          {
+            title: "Curated Inventory",
+            copy: "Every vehicle is inspected and verified before listing.",
+          },
+          {
+            title: "Import Expertise",
+            copy: "End-to-end vehicle importation, handled for you.",
+          },
+          {
+            title: "Personal Consultation",
+            copy: "Speak to a specialist — no pressure, just guidance.",
+          },
         ].map((item) => (
           <div key={item.title} className="border-l-2 border-accent pl-5">
             <h3 className="font-display text-xl mb-2">{item.title}</h3>
@@ -150,11 +186,26 @@ export default function Home() {
       <section className="max-w-7xl mx-auto px-5 md:px-8 mt-24">
         <div className="bg-charcoal-900 border border-charcoal-700 rounded-md p-10 md:p-14 grid md:grid-cols-2 gap-8 items-center">
           <div>
-            <h2 className="font-display text-3xl mb-4">Can't find it locally?</h2>
-            <p className="text-ivory/60 mb-6">We import vehicles directly to your specification. Tell us what you're looking for and we'll handle the rest.</p>
+            <h2 className="font-display text-3xl mb-4">
+              Can't find it locally?
+            </h2>
+            <p className="text-ivory/60 mb-6">
+              We import vehicles directly to your specification. Tell us what
+              you're looking for and we'll handle the rest.
+            </p>
             <div className="flex gap-4">
-              <Link to="/import" className="bg-accent text-charcoal-950 font-medium px-6 py-3 rounded-sm">Learn About Import</Link>
-              <Link to="/consultation" className="border border-ivory/30 px-6 py-3 rounded-sm">Find a Car for Me</Link>
+              <Link
+                to="/import"
+                className="bg-accent text-charcoal-950 font-medium px-6 py-3 rounded-sm"
+              >
+                Learn About Import
+              </Link>
+              <Link
+                to="/consultation"
+                className="border border-ivory/30 px-6 py-3 rounded-sm"
+              >
+                Find a Car for Me
+              </Link>
             </div>
           </div>
           <img
@@ -167,9 +218,16 @@ export default function Home() {
 
       {/* Final CTA */}
       <section className="max-w-4xl mx-auto px-5 md:px-8 mt-24 mb-24 text-center">
-        <h2 className="font-display text-3xl md:text-4xl mb-4">Ready to find your next car?</h2>
-        <p className="text-ivory/60 mb-8">Book a free, no-obligation consultation with our team today.</p>
-        <Link to="/consultation" className="bg-accent text-charcoal-950 font-medium px-8 py-4 rounded-sm inline-block hover:bg-accent-light transition-colors">
+        <h2 className="font-display text-3xl md:text-4xl mb-4">
+          Ready to find your next car?
+        </h2>
+        <p className="text-ivory/60 mb-8">
+          Book a free, no-obligation consultation with our team today.
+        </p>
+        <Link
+          to="/consultation"
+          className="bg-accent text-charcoal-950 font-medium px-8 py-4 rounded-sm inline-block hover:bg-accent-light transition-colors"
+        >
           Request Consultation
         </Link>
       </section>
@@ -181,7 +239,10 @@ function LoadingGrid() {
   return (
     <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
       {[...Array(3)].map((_, i) => (
-        <div key={i} className="bg-charcoal-900 border border-charcoal-700 rounded-md h-80 animate-pulse" />
+        <div
+          key={i}
+          className="bg-charcoal-900 border border-charcoal-700 rounded-md h-80 animate-pulse"
+        />
       ))}
     </div>
   );

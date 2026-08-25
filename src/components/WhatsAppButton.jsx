@@ -1,5 +1,5 @@
 // Update this to your real business WhatsApp number (with country code, no +/spaces)
-const WHATSAPP_NUMBER = "254700000000";
+const WHATSAPP_NUMBER = "254722333058";
 
 export function whatsappLink(message) {
   const defaultMessage = "Hi, I'd like to know more about your vehicles.";

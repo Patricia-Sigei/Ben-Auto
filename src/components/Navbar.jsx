@@ -26,12 +26,17 @@ export default function Navbar() {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? "bg-charcoal-950/95 backdrop-blur-md shadow-lg shadow-black/30" : "bg-transparent"
+        scrolled
+          ? "bg-charcoal-950/95 backdrop-blur-md shadow-lg shadow-black/30"
+          : "bg-transparent"
       }`}
     >
       <nav className="max-w-7xl mx-auto flex items-center justify-between px-5 md:px-8 py-4">
-        <Link to="/" className="font-display text-xl md:text-2xl tracking-wide text-ivory">
-          Prestige<span className="text-accent">Motors</span>
+        <Link
+          to="/"
+          className="font-display text-xl md:text-2xl tracking-wide text-ivory"
+        >
+          BenLink<span className="text-accent">Imports</span>
         </Link>
 
         <div className="hidden lg:flex items-center gap-7">

@@ -9,8 +9,6 @@ const STEPS = [
   { title: "Delivery", copy: "Your vehicle is delivered to you, fully registered and ready to drive." },
 ];
 
-// Simplified, illustrative Kenyan import duty estimate.
-// Real duty depends on CRSP value, engine size, age, and current KRA rates.
 function estimateImportCost(cif, engineCc) {
   const dutyRate = 0.25;
   const exciseRate = engineCc > 2500 ? 0.35 : engineCc > 1500 ? 0.25 : 0.2;
