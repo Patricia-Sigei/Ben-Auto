@@ -6,11 +6,11 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-5 md:px-8 py-14 grid grid-cols-2 md:grid-cols-4 gap-8">
         <div className="col-span-2">
           <p className="font-display text-xl mb-3">
-            Prestige<span className="text-accent">Motors</span>
+            BenLink<span className="text-accent">Imports</span>
           </p>
           <p className="text-sm text-ivory/60 max-w-sm">
-            Demo content — premium car sales and import specialists concept for
-            the Kenyan market. Replace with real company information.
+            Premium car sales and import specialists concept for the Kenyan
+            market.
           </p>
         </div>
         <div>

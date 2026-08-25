@@ -1,5 +1,3 @@
-// Central place for all backend calls.
-// Change VITE_API_URL in .env when you deploy the backend somewhere real.
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:4000/api";
 
 function authHeaders() {
@@ -22,7 +20,8 @@ export const api = {
     const query = new URLSearchParams(params).toString();
     return fetch(`${API_URL}/vehicles?${query}`).then(handleResponse);
   },
-  getVehicleBySlug: (slug) => fetch(`${API_URL}/vehicles/${slug}`).then(handleResponse),
+  getVehicleBySlug: (slug) =>
+    fetch(`${API_URL}/vehicles/${slug}`).then(handleResponse),
 
   // ---- Vehicles (admin) ----
   createVehicle: (data) =>
@@ -40,14 +39,17 @@ export const api = {
     }).then(handleResponse),
 
   deleteVehicle: (id) =>
-    fetch(`${API_URL}/vehicles/${id}`, { method: "DELETE", headers: authHeaders() }).then(handleResponse),
+    fetch(`${API_URL}/vehicles/${id}`, {
+      method: "DELETE",
+      headers: authHeaders(),
+    }).then(handleResponse),
 
   uploadVehicleImages: (id, files) => {
     const formData = new FormData();
     Array.from(files).forEach((file) => formData.append("images", file));
     return fetch(`${API_URL}/vehicles/${id}/images`, {
       method: "POST",
-      headers: authHeaders(), // do NOT set Content-Type - browser sets multipart boundary
+      headers: authHeaders(),
       body: formData,
     }).then(handleResponse);
   },
@@ -86,9 +88,18 @@ export const api = {
     }).then(handleResponse),
 
   // ---- Enquiries (admin reads) ----
-  getConsultations: () => fetch(`${API_URL}/consultations`, { headers: authHeaders() }).then(handleResponse),
-  getFindCarRequests: () => fetch(`${API_URL}/find-car-requests`, { headers: authHeaders() }).then(handleResponse),
-  getTradeInRequests: () => fetch(`${API_URL}/trade-in-requests`, { headers: authHeaders() }).then(handleResponse),
+  getConsultations: () =>
+    fetch(`${API_URL}/consultations`, { headers: authHeaders() }).then(
+      handleResponse,
+    ),
+  getFindCarRequests: () =>
+    fetch(`${API_URL}/find-car-requests`, { headers: authHeaders() }).then(
+      handleResponse,
+    ),
+  getTradeInRequests: () =>
+    fetch(`${API_URL}/trade-in-requests`, { headers: authHeaders() }).then(
+      handleResponse,
+    ),
 };
 
 export const IMAGE_BASE_URL = API_URL.replace("/api", "");
