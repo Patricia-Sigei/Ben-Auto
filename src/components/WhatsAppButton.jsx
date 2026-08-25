@@ -2,7 +2,8 @@
 const WHATSAPP_NUMBER = "254722333058";
 
 export function whatsappLink(message) {
-  const defaultMessage = "Hi, I'd like to know more about your vehicles.";
+  const defaultMessage =
+    "Hi, I'm interested in the vehicle I saw on your website. Kindly share more details, including the price, specifications, and import process.";
   return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message || defaultMessage)}`;
 }
 
