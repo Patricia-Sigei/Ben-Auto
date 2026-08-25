@@ -74,7 +74,7 @@ Email: ${form.email}
 🚘 CAR REQUIREMENTS
 
 Car of Interest: ${form.carModel}
-Budget: KES ${form.budget}
+Budget: USD ${form.budget}
 Condition: ${form.condition || "Not specified"}
 Fuel Type: ${form.fuelType || "Not specified"}
 
@@ -204,7 +204,7 @@ ${form.message || "None"}
           />
         </Field>
 
-        <Field label="Budget (KES)" required error={errors.budget}>
+        <Field label="Budget (USD)" required error={errors.budget}>
           <input
             type="number"
             className="input-field w-full"
