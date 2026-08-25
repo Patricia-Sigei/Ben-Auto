@@ -208,7 +208,7 @@ ${form.message || "None"}
           <input
             type="number"
             className="input-field w-full"
-            placeholder="e.g. 3500000"
+            placeholder="e.g. 3500"
             value={form.budget}
             onChange={(e) =>
               setForm({
