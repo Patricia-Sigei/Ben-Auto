@@ -1,10 +1,26 @@
-import { useState } from "react";
-import { api } from "../lib/api";
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { api, IMAGE_BASE_URL } from "../lib/api";
+import { EmptyState, ErrorState } from "./Home";
 
-// Simple shared layout for the magazine-style content sections.
-// These are intentionally lightweight scaffolds - wire them to the Article
-// model via api.getArticles({ type: "..." }) once that endpoint is added.
-function ContentPage({ eyebrow, title, description, children }) {
+// Shared layout for the magazine-style content sections. Pass `types`
+// (matching the Prisma Article.type enum) to fetch + render real articles,
+// or pass `children` for static content pages like About/Contact that don't
+// pull from the Article model.
+function ContentPage({ eyebrow, title, description, types, children }) {
+  const [articles, setArticles] = useState([]);
+  const [loading, setLoading] = useState(!!types);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    if (!types) return; // static page (About, Contact, etc.) - nothing to fetch
+    setLoading(true);
+    Promise.all(types.map((type) => api.getArticles({ type })))
+      .then((results) => setArticles(results.flat()))
+      .catch((err) => setError(err.message))
+      .finally(() => setLoading(false));
+  }, [types?.join(",")]);
+
   return (
     <div className="max-w-6xl mx-auto px-5 md:px-8 pt-32 pb-24">
       <p className="text-accent text-sm tracking-widest uppercase mb-2">
@@ -12,10 +28,65 @@ function ContentPage({ eyebrow, title, description, children }) {
       </p>
       <h1 className="font-display text-3xl md:text-4xl mb-4">{title}</h1>
       <p className="text-ivory/60 max-w-2xl mb-12">{description}</p>
-      {children || (
-        <div className="text-center py-16 border border-dashed border-charcoal-700 rounded-md text-ivory/50">
-          Demo placeholder — connect this page to the Article model to show real
-          content.
+
+      {children}
+
+      {types && loading && (
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {[...Array(3)].map((_, i) => (
+            <div
+              key={i}
+              className="bg-charcoal-900 border border-charcoal-700 rounded-md h-64 animate-pulse"
+            />
+          ))}
+        </div>
+      )}
+
+      {types && error && <ErrorState message={error} />}
+
+      {types && !loading && !error && articles.length === 0 && (
+        <EmptyState message="No articles published yet. Post one from the admin dashboard under Content & Articles." />
+      )}
+
+      {types && !loading && !error && articles.length > 0 && (
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {articles.map((a) => {
+            const coverUrl = a.coverImage
+              ? a.coverImage.startsWith("http")
+                ? a.coverImage
+                : `${IMAGE_BASE_URL}${a.coverImage}`
+              : null;
+            return (
+              <Link
+                key={a.id}
+                to={`/articles/${a.slug}`}
+                className="bg-charcoal-900 border border-charcoal-700 rounded-md overflow-hidden hover:border-accent/50 transition-colors group"
+              >
+                {coverUrl ? (
+                  <div className="aspect-[16/10] overflow-hidden">
+                    <img
+                      src={coverUrl}
+                      alt={a.title}
+                      loading="lazy"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                  </div>
+                ) : (
+                  <div className="aspect-[16/10] bg-charcoal-800 flex items-center justify-center text-ivory/20 text-sm">
+                    No image
+                  </div>
+                )}
+                <div className="p-5">
+                  <h3 className="font-display text-lg mb-2 leading-snug">
+                    {a.title}
+                  </h3>
+                  <p className="text-ivory/60 text-sm line-clamp-2">
+                    {a.excerpt}
+                  </p>
+                </div>
+              </Link>
+            );
+          })}
         </div>
       )}
     </div>
@@ -26,8 +97,9 @@ export function Reviews() {
   return (
     <ContentPage
       eyebrow="Car Reviews"
-      title="In-Depth Vehicle Reviews"
-      description="Honest, detailed reviews of the vehicles in our inventory and the wider Kenyan market."
+      title="Vehicle Reviews for the Kenyan Market"
+      description="Honest, in-depth reviews covering performance, reliability, fuel economy, and value — helping you choose the right car for Kenyan roads and driving conditions."
+      types={["REVIEW"]}
     />
   );
 }
@@ -36,8 +108,9 @@ export function News() {
   return (
     <ContentPage
       eyebrow="News & Guides"
-      title="Automotive News & Buying Guides"
-      description="Stay informed with market updates, import guides, and practical car-buying advice."
+      title="Automotive News & Buying Guides for Kenya"
+      description="Stay ahead with Kenyan car market updates, step-by-step import guides, and practical buying advice — from choosing the right model to navigating KRA duty and registration."
+      types={["NEWS", "BUYING_GUIDE", "IMPORT_GUIDE", "TIP"]}
     />
   );
 }
@@ -46,8 +119,9 @@ export function Lifestyle() {
   return (
     <ContentPage
       eyebrow="Lifestyle"
-      title="Automotive Lifestyle"
-      description="Where cars meet culture — stories for the modern Kenyan driver."
+      title="Automotive Lifestyle in Kenya"
+      description="Car culture, ownership tips, and stories for the modern Kenyan driver — from maintenance advice to the trends shaping how we drive."
+      types={["LIFESTYLE"]}
     />
   );
 }
@@ -56,8 +130,9 @@ export function Travel() {
   return (
     <ContentPage
       eyebrow="Travel"
-      title="Road Trips & Travel"
-      description="Discover Kenya's best drives and destinations, one road trip at a time."
+      title="Road Trips & Travel Guides"
+      description="Explore Kenya's best road trip routes, scenic drives, and travel destinations — plus practical tips on choosing the right vehicle for every journey."
+      types={["TRAVEL"]}
     />
   );
 }
@@ -66,13 +141,21 @@ export function About() {
   return (
     <ContentPage
       eyebrow="About Us"
-      title="About BenLink Motors"
-      description="Demo company profile — replace with your real story, mission, and team once available."
+      title="About BenLink Imports"
+      description="Kenya's trusted partner for premium car sales and vehicle imports — from sourcing to delivery."
     >
       <div className="grid md:grid-cols-2 gap-10 items-center">
         <p className="text-ivory/70 leading-relaxed">
-          BenLink Motors is built to showcase a premium car sales and import
-          experience for the Kenyan market.
+          BenLink Imports is Kenya's trusted partner for premium car sales and
+          vehicle import services, connecting buyers across Nairobi and beyond
+          with quality vehicles sourced locally and internationally. Since 2024,
+          we've helped clients navigate everything from selecting the right SUV
+          for their family to importing a specific model from Japan, the UK, or
+          South Africa. We handle inspection, shipping, customs clearance, and
+          KRA registration every step of the way. We believe buying or importing
+          a car shouldn't feel like a gamble: every vehicle in our inventory is
+          inspected before listing, every import is tracked from purchase to
+          delivery, and every client gets a dedicated point of contact.
         </p>
         <img
           src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?q=80&w=1000"
