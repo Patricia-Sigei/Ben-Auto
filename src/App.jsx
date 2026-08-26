@@ -12,11 +12,22 @@ import CarDetails from "./pages/CarDetails";
 import Consultation from "./pages/Consultation";
 import Import from "./pages/Import";
 import NotFound from "./pages/NotFound";
-import { Reviews, News, Lifestyle, Travel, About, Contact, SellTradeIn } from "./pages/ContentPages";
+import ArticleDetails from "./pages/ArticleDetails";
+import {
+  Reviews,
+  News,
+  Lifestyle,
+  Travel,
+  About,
+  Contact,
+  SellTradeIn,
+} from "./pages/ContentPages";
 
 import AdminLogin from "./pages/Admin/Login";
 import AdminDashboard from "./pages/Admin/Dashboard";
 import VehicleForm from "./pages/Admin/VehicleForm";
+import AdminArticles from "./pages/Admin/Articles";
+import ArticleForm from "./pages/Admin/ArticleForm";
 
 export default function App() {
   return (
@@ -36,12 +47,58 @@ export default function App() {
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/sell-trade-in" element={<SellTradeIn />} />
+          <Route path="/articles/:slug" element={<ArticleDetails />} />
 
           {/* Admin */}
           <Route path="/admin/login" element={<AdminLogin />} />
-          <Route path="/admin" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
-          <Route path="/admin/vehicles/new" element={<ProtectedRoute><VehicleForm /></ProtectedRoute>} />
-          <Route path="/admin/vehicles/:id/edit" element={<ProtectedRoute><VehicleForm /></ProtectedRoute>} />
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute>
+                <AdminDashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/vehicles/new"
+            element={
+              <ProtectedRoute>
+                <VehicleForm />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/vehicles/:id/edit"
+            element={
+              <ProtectedRoute>
+                <VehicleForm />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/articles"
+            element={
+              <ProtectedRoute>
+                <AdminArticles />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/articles/new"
+            element={
+              <ProtectedRoute>
+                <ArticleForm />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/articles/:id/edit"
+            element={
+              <ProtectedRoute>
+                <ArticleForm />
+              </ProtectedRoute>
+            }
+          />
 
           <Route path="*" element={<NotFound />} />
         </Routes>
