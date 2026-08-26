@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { api, IMAGE_BASE_URL } from "../../lib/api";
+import AdminNav from "./AdminNav";
 
 const emptyForm = {
   stockNumber: "", make: "", model: "", year: "", price: "", mileage: "",
@@ -10,7 +11,7 @@ const emptyForm = {
 };
 
 export default function VehicleForm() {
-  const { id } = useParams(); 
+  const { id } = useParams(); // present when editing
   const isEditing = !!id;
   const navigate = useNavigate();
 
@@ -68,8 +69,10 @@ export default function VehicleForm() {
   }
 
   return (
-    <div className="max-w-3xl mx-auto px-5 md:px-8 pt-32 pb-24">
-      <h1 className="font-display text-3xl mb-1">{isEditing ? "Edit Vehicle" : "Post New Vehicle"}</h1>
+    <>
+      <AdminNav />
+      <div className="max-w-3xl mx-auto px-5 md:px-8 pt-24 pb-24">
+        <h1 className="font-display text-3xl mb-1 mt-8">{isEditing ? "Edit Vehicle" : "Post New Vehicle"}</h1>
       <p className="text-ivory/50 text-sm mb-8">
         Fields marked with a stock number must be unique. Add photos after saving basic details.
       </p>
@@ -155,7 +158,8 @@ export default function VehicleForm() {
           {status === "saving" ? "Saving..." : isEditing ? "Save Changes" : "Post Vehicle"}
         </button>
       </form>
-    </div>
+      </div>
+    </>
   );
 }
 
