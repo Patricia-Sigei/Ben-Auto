@@ -1,6 +1,6 @@
 // Central place for all backend calls.
 // Change VITE_API_URL in .env when you deploy the backend somewhere real.
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:4000/api";
+const API_URL = import.meta.env.VITE_API_URL || "http://13.53.241.66";
 
 function authHeaders() {
   const token = localStorage.getItem("admin_token");
