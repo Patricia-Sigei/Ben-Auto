@@ -297,10 +297,11 @@ export default function VehicleForm() {
               type="file"
               multiple
               accept="image/jpeg,image/png,image/webp"
-              onChange={(e) => {
-                setNewFiles((prev) => [...prev, ...Array.from(e.target.files)]);
-                e.target.value = "";
-              }}
+              // onChange={(e) => {
+              //   setNewFiles((prev) => [...prev, ...Array.from(e.target.files)]);
+              //   e.target.value = "";
+              // }}
+              onChange={(e) => setNewFiles(Array.from(e.target.files))}
               className="text-sm text-ivory/60"
             />
             <p className="text-xs text-ivory/40 mt-1">
