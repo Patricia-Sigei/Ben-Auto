@@ -178,7 +178,7 @@ export default function VehicleForm() {
 
           <div className="grid sm:grid-cols-3 gap-4">
             <TextInput
-              label="Price (KES)"
+              label="Price (USD)"
               type="number"
               value={form.price}
               onChange={(v) => update("price", v)}
@@ -297,7 +297,10 @@ export default function VehicleForm() {
               type="file"
               multiple
               accept="image/jpeg,image/png,image/webp"
-              onChange={(e) => setNewFiles(Array.from(e.target.files))}
+              onChange={(e) => {
+                setNewFiles((prev) => [...prev, ...Array.from(e.target.files)]);
+                e.target.value = "";
+              }}
               className="text-sm text-ivory/60"
             />
             <p className="text-xs text-ivory/40 mt-1">

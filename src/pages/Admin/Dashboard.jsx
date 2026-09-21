@@ -83,7 +83,7 @@ export default function AdminDashboard() {
               <thead>
                 <tr className="text-left text-ivory/40 border-b border-charcoal-700">
                   <th className="py-3 pr-4">Vehicle</th>
-                  <th className="py-3 pr-4">Stock #</th>
+                  <th className="py-3 pr-4">Stock </th>
                   <th className="py-3 pr-4">Price</th>
                   <th className="py-3 pr-4">Status</th>
                   <th className="py-3 pr-4">Qty</th>

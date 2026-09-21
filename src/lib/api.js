@@ -1,4 +1,3 @@
-// Central place for all backend calls.
 const API_URL = import.meta.env.VITE_API_URL || "http://13.53.241.66/api";
 
 function authHeaders() {
