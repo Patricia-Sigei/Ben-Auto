@@ -193,42 +193,40 @@ export default function CarDetails() {
               similar.
             </div>
           ) : (
-            <div className="flex flex-wrap gap-3 mb-8">
-              <a
-                href={whatsappLink(
-                  `Hi, I'm interested in the ${vehicle.year} ${vehicle.make} ${vehicle.model} (Stock #${vehicle.stockNumber}).`,
-                )}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-[#25D366] text-charcoal-950 font-medium px-5 py-3 rounded-sm text-sm"
-              >
-                Chat on WhatsApp
-              </a>
-              <Link
-                to="/consultation"
-                className="bg-accent text-charcoal-950 font-medium px-5 py-3 rounded-sm text-sm"
-              >
-                Request Consultation
-              </Link>
-              <Link
-                to="/consultation"
-                className="border border-ivory/30 px-5 py-3 rounded-sm text-sm"
-              >
-                Schedule Viewing
-              </Link>
-              <button
-                onClick={toggleFavourite}
-                className={`border px-4 py-3 rounded-sm text-sm ${isFavourite ? "border-accent text-accent" : "border-ivory/30"}`}
-              >
-                {isFavourite ? "♥ Saved" : "♡ Favourite"}
-              </button>
-              <button
-                onClick={share}
-                className="border border-ivory/30 px-4 py-3 rounded-sm text-sm"
-              >
-                Share
-              </button>
-            </div>
+            <>
+              <div className="flex flex-wrap gap-3 mb-4">
+                <a
+                  href={whatsappLink(
+                    `Hi, I'm interested in the ${vehicle.year} ${vehicle.make} ${vehicle.model} (Stock #${vehicle.stockNumber}).`,
+                  )}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-[#25D366] text-charcoal-950 font-medium px-5 py-3 rounded-sm text-sm"
+                >
+                  Chat on WhatsApp
+                </a>
+                <Link
+                  to="/consultation"
+                  className="bg-accent text-charcoal-950 font-medium px-5 py-3 rounded-sm text-sm"
+                >
+                  Request Consultation
+                </Link>
+              </div>
+              <div className="flex flex-wrap gap-3 mb-8">
+                <button
+                  onClick={toggleFavourite}
+                  className={`border px-4 py-3 rounded-sm text-sm ${isFavourite ? "border-accent text-accent" : "border-ivory/30"}`}
+                >
+                  {isFavourite ? "♥ Saved" : "♡ Favourite"}
+                </button>
+                <button
+                  onClick={share}
+                  className="border border-ivory/30 px-4 py-3 rounded-sm text-sm"
+                >
+                  Share
+                </button>
+              </div>
+            </>
           )}
 
           {vehicle.features?.length > 0 && (

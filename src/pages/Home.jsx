@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { api } from "../lib/api";
 import VehicleCard from "../components/VehicleCard";
 
@@ -15,23 +15,62 @@ const CATEGORY_ICONS = {
 };
 
 export default function Home() {
+  const navigate = useNavigate();
   const [featured, setFeatured] = useState([]);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // Search section state
+  const [makes, setMakes] = useState([]);
+  const [models, setModels] = useState([]);
+  const [selectedMake, setSelectedMake] = useState("");
+  const [selectedModel, setSelectedModel] = useState("");
+  const [maxPrice, setMaxPrice] = useState("");
+  const [minYear, setMinYear] = useState("");
+  const [bodyType, setBodyType] = useState("");
+
   useEffect(() => {
     Promise.all([
       api.getVehicles({ featured: "true", limit: 6 }),
       api.getCategories(),
+      api.getMakes(),
     ])
-      .then(([vehicleRes, categoryRes]) => {
+      .then(([vehicleRes, categoryRes, makesRes]) => {
         setFeatured(vehicleRes.vehicles);
         setCategories(categoryRes);
+        setMakes(makesRes);
       })
       .catch((err) => setError(err.message))
       .finally(() => setLoading(false));
   }, []);
+
+  // Whenever the selected make changes, fetch the models that actually
+  // exist for that make - this is what makes the dropdown "cascading"
+  // rather than a free-text field.
+  useEffect(() => {
+    if (!selectedMake) {
+      setModels([]);
+      setSelectedModel("");
+      return;
+    }
+    api
+      .getModelsByMake(selectedMake)
+      .then(setModels)
+      .catch(() => setModels([]));
+    setSelectedModel(""); // changing make invalidates whatever model was picked before
+  }, [selectedMake]);
+
+  function handleSearch(e) {
+    e.preventDefault();
+    const params = new URLSearchParams();
+    if (selectedMake) params.set("make", selectedMake);
+    if (selectedModel) params.set("model", selectedModel);
+    if (maxPrice) params.set("maxPrice", maxPrice);
+    if (minYear) params.set("minYear", minYear);
+    if (bodyType) params.set("bodyType", bodyType);
+    navigate(`/cars?${params.toString()}`);
+  }
 
   return (
     <div>
@@ -45,7 +84,7 @@ export default function Home() {
         <div className="absolute inset-0 bg-gradient-to-t from-charcoal-950 via-charcoal-950/60 to-charcoal-950/20" />
         <div className="relative max-w-7xl mx-auto px-5 md:px-8 animate-fade-in">
           <p className="text-accent tracking-[0.2em] text-sm uppercase mb-4">
-            BenLink Imports — Kenya
+            DriveLux — Kenya
           </p>
           <h1 className="font-display text-4xl md:text-6xl lg:text-7xl leading-tight max-w-3xl">
             Drive Something Exceptional
@@ -77,27 +116,54 @@ export default function Home() {
           <h2 className="font-display text-xl mb-5">Find Your Next Car</h2>
           <form
             className="grid grid-cols-2 md:grid-cols-5 gap-4"
-            onSubmit={(e) => {
-              e.preventDefault();
-              const params = new URLSearchParams(
-                new FormData(e.target),
-              ).toString();
-              window.location.href = `/cars?${params}`;
-            }}
+            onSubmit={handleSearch}
           >
-            <input name="make" placeholder="Make" className="input-field" />
-            <input name="model" placeholder="Model" className="input-field" />
+            <select
+              className="input-field"
+              value={selectedMake}
+              onChange={(e) => setSelectedMake(e.target.value)}
+            >
+              <option value="">Make</option>
+              {makes.map((m) => (
+                <option key={m} value={m}>
+                  {m}
+                </option>
+              ))}
+            </select>
+
+            <select
+              className="input-field disabled:opacity-40"
+              value={selectedModel}
+              onChange={(e) => setSelectedModel(e.target.value)}
+              disabled={!selectedMake}
+            >
+              <option value="">
+                {selectedMake ? "Model" : "Select a make first"}
+              </option>
+              {models.map((m) => (
+                <option key={m} value={m}>
+                  {m}
+                </option>
+              ))}
+            </select>
+
             <input
-              name="maxPrice"
+              className="input-field"
               placeholder="Max Price (KES)"
-              className="input-field"
+              value={maxPrice}
+              onChange={(e) => setMaxPrice(e.target.value)}
             />
             <input
-              name="minYear"
-              placeholder="Min Year"
               className="input-field"
+              placeholder="Min Year"
+              value={minYear}
+              onChange={(e) => setMinYear(e.target.value)}
             />
-            <select name="bodyType" className="input-field">
+            <select
+              className="input-field"
+              value={bodyType}
+              onChange={(e) => setBodyType(e.target.value)}
+            >
               <option value="">Body Type</option>
               {categories.map((c) => (
                 <option key={c.id} value={c.slug}>
@@ -105,6 +171,7 @@ export default function Home() {
                 </option>
               ))}
             </select>
+
             <button className="col-span-2 md:col-span-5 bg-accent text-charcoal-950 font-medium py-3 rounded-sm hover:bg-accent-light transition-colors">
               Search Vehicles
             </button>
