@@ -36,7 +36,7 @@ export default function Navbar() {
           to="/"
           className="font-display text-xl md:text-2xl tracking-wide text-ivory"
         >
-          BenLink<span className="text-accent">Imports</span>
+          DriveLux<span className="text-accent">Imports</span>
         </Link>
 
         <div className="hidden lg:flex items-center gap-7">

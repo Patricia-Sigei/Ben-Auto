@@ -141,12 +141,12 @@ export function About() {
   return (
     <ContentPage
       eyebrow="About Us"
-      title="About BenLink Imports"
+      title="About DriveLux Imports"
       description="Kenya's trusted partner for premium car sales and vehicle imports — from sourcing to delivery."
     >
       <div className="grid md:grid-cols-2 gap-10 items-center">
         <p className="text-ivory/70 leading-relaxed">
-          BenLink Imports is Kenya's trusted partner for premium car sales and
+          DriveLux Imports is Kenya's trusted partner for premium car sales and
           vehicle import services, connecting buyers across Nairobi and beyond
           with quality vehicles sourced locally and internationally. Since 2024,
           we've helped clients navigate everything from selecting the right SUV
@@ -181,7 +181,7 @@ export function Contact() {
         </div>
         <div className="bg-charcoal-900 border border-charcoal-700 rounded-md p-5">
           <p className="text-ivory/40 mb-1">Email</p>
-          <p>info@benlinkimports.co.ke</p>
+          <p>info@DriveLuximports.co.ke</p>
         </div>
         <div className="bg-charcoal-900 border border-charcoal-700 rounded-md p-5">
           <p className="text-ivory/40 mb-1">Location</p>
