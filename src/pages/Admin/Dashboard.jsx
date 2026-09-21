@@ -103,7 +103,7 @@ export default function AdminDashboard() {
                         {v.stockNumber}
                       </td>
                       <td className="py-3 pr-4">
-                        KES {v.price.toLocaleString()}
+                        USD {v.price.toLocaleString()}
                       </td>
                       <td className="py-3 pr-4">
                         {isSoldOut ? (

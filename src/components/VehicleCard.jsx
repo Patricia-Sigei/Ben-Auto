@@ -19,7 +19,7 @@ const AVAILABILITY_LABELS = {
 };
 
 function formatPrice(price) {
-  return `KES ${Number(price).toLocaleString()}`;
+  return `USD ${Number(price).toLocaleString()}`;
 }
 
 function formatMileage(mileage) {

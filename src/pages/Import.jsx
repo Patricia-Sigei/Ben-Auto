@@ -90,7 +90,7 @@ export default function Import() {
         >
           <div>
             <label className="block text-sm text-ivory/70 mb-1.5">
-              CIF Value (USD)
+              CIF Value (KES)
             </label>
             <input
               className="input-field w-full"

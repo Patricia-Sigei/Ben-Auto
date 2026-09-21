@@ -45,9 +45,6 @@ export default function Home() {
       .finally(() => setLoading(false));
   }, []);
 
-  // Whenever the selected make changes, fetch the models that actually
-  // exist for that make - this is what makes the dropdown "cascading"
-  // rather than a free-text field.
   useEffect(() => {
     if (!selectedMake) {
       setModels([]);
@@ -58,7 +55,7 @@ export default function Home() {
       .getModelsByMake(selectedMake)
       .then(setModels)
       .catch(() => setModels([]));
-    setSelectedModel(""); // changing make invalidates whatever model was picked before
+    setSelectedModel("");
   }, [selectedMake]);
 
   function handleSearch(e) {
@@ -149,7 +146,7 @@ export default function Home() {
 
             <input
               className="input-field"
-              placeholder="Max Price (KES)"
+              placeholder="Max Price (USD)"
               value={maxPrice}
               onChange={(e) => setMaxPrice(e.target.value)}
             />

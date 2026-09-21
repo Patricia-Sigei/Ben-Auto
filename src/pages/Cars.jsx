@@ -46,9 +46,6 @@ export default function Cars() {
       .catch(() => {});
   }, []);
 
-  // Whenever the selected make changes, fetch the models that actually
-  // exist for that make (cascading dropdown). If no make is selected,
-  // the model dropdown is cleared and disabled.
   useEffect(() => {
     if (!filters.make) {
       setModels([]);

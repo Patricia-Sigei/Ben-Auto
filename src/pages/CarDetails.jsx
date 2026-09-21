@@ -152,13 +152,13 @@ export default function CarDetails() {
         {/* Info */}
         <div>
           <p className="text-accent text-sm tracking-widest uppercase mb-2">
-            Stock #{vehicle.stockNumber}
+            Stock {vehicle.stockNumber}
           </p>
           <h1 className="font-display text-3xl md:text-4xl mb-3">
             {vehicle.year} {vehicle.make} {vehicle.model}
           </h1>
           <p className="text-3xl font-semibold text-accent mb-6">
-            KES {vehicle.price.toLocaleString()}
+            USD {vehicle.price.toLocaleString()}
           </p>
 
           <div className="grid grid-cols-2 gap-4 mb-8 text-sm">
