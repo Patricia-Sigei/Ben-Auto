@@ -3,17 +3,13 @@ import { Link } from "react-router-dom";
 import { api, IMAGE_BASE_URL } from "../lib/api";
 import { EmptyState, ErrorState } from "./Home";
 
-// Shared layout for the magazine-style content sections. Pass `types`
-// (matching the Prisma Article.type enum) to fetch + render real articles,
-// or pass `children` for static content pages like About/Contact that don't
-// pull from the Article model.
 function ContentPage({ eyebrow, title, description, types, children }) {
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(!!types);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (!types) return; // static page (About, Contact, etc.) - nothing to fetch
+    if (!types) return;
     setLoading(true);
     Promise.all(types.map((type) => api.getArticles({ type })))
       .then((results) => setArticles(results.flat()))
@@ -150,12 +146,12 @@ export function About() {
           vehicle import services, connecting buyers across Nairobi and beyond
           with quality vehicles sourced locally and internationally. Since 2024,
           we've helped clients navigate everything from selecting the right SUV
-          for their family to importing a specific model from Japan, the UK, or
-          South Africa. We handle inspection, shipping, customs clearance, and
-          KRA registration every step of the way. We believe buying or importing
-          a car shouldn't feel like a gamble: every vehicle in our inventory is
-          inspected before listing, every import is tracked from purchase to
-          delivery, and every client gets a dedicated point of contact.
+          for their family to importing a specific model from Japan. We handle
+          inspection, shipping, customs clearance, and KRA registration every
+          step of the way. We believe buying or importing a car shouldn't feel
+          like a gamble: every vehicle in our inventory is inspected before
+          listing, every import is tracked from purchase to delivery, and every
+          client gets a dedicated point of contact.
         </p>
         <img
           src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?q=80&w=1000"

@@ -6,7 +6,7 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-5 md:px-8 py-14 grid grid-cols-2 md:grid-cols-4 gap-8">
         <div className="col-span-2">
           <p className="font-display text-xl mb-3">
-            BenLink<span className="text-accent">Imports</span>
+            DriveLux<span className="text-accent">Imports</span>
           </p>
           <p className="text-sm text-ivory/60 max-w-sm">
             Premium car sales and import specialists concept for the Kenyan
@@ -60,7 +60,7 @@ export default function Footer() {
         </div>
       </div>
       <div className="border-t border-charcoal-700 py-5 text-center text-xs text-ivory/40">
-        © {new Date().getFullYear()} BenLink Imports. All rights reserved.
+        © {new Date().getFullYear()} DriveLux Imports. All rights reserved.
       </div>
     </footer>
   );
