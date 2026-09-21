@@ -25,11 +25,33 @@ export default function AdminDashboard() {
     load();
   }
 
+  async function handleSellOne(v) {
+    if (v.quantity <= 0) return;
+    const label =
+      v.quantity === 1
+        ? "This will mark it as Sold Out."
+        : `This will reduce stock from ${v.quantity} to ${v.quantity - 1}.`;
+    if (
+      !confirm(
+        `Mark one unit of ${v.year} ${v.make} ${v.model} as sold? ${label}`,
+      )
+    )
+      return;
+    await api.sellOneUnit(v.id);
+    load();
+  }
+
+  const totalUnitsInStock = vehicles.reduce(
+    (sum, v) => sum + (v.quantity ?? 1),
+    0,
+  );
+  const soldOutCount = vehicles.filter((v) => (v.quantity ?? 1) <= 0).length;
+
   return (
     <>
       <AdminNav />
       <div className="max-w-6xl mx-auto px-5 md:px-8 pt-24 pb-24">
-        <div className="flex items-center justify-between mb-8 mt-8">
+        <div className="flex flex-wrap items-center justify-between gap-4 mb-6 mt-8">
           <h1 className="font-display text-3xl">Vehicles</h1>
           <Link
             to="/admin/vehicles/new"
@@ -37,6 +59,12 @@ export default function AdminDashboard() {
           >
             + Post New Vehicle
           </Link>
+        </div>
+
+        <div className="grid grid-cols-3 gap-4 mb-8">
+          <StatCard label="Listings" value={vehicles.length} />
+          <StatCard label="Total Units in Stock" value={totalUnitsInStock} />
+          <StatCard label="Sold Out Listings" value={soldOutCount} />
         </div>
 
         {loading && <p className="text-ivory/50">Loading vehicles...</p>}
@@ -58,45 +86,76 @@ export default function AdminDashboard() {
                   <th className="py-3 pr-4">Stock #</th>
                   <th className="py-3 pr-4">Price</th>
                   <th className="py-3 pr-4">Status</th>
-                  <th className="py-3 pr-4">Images</th>
+                  <th className="py-3 pr-4">Qty</th>
                   <th className="py-3"></th>
                 </tr>
               </thead>
               <tbody>
-                {vehicles.map((v) => (
-                  <tr key={v.id} className="border-b border-charcoal-800">
-                    <td className="py-3 pr-4">
-                      {v.year} {v.make} {v.model}
-                    </td>
-                    <td className="py-3 pr-4 text-ivory/60">{v.stockNumber}</td>
-                    <td className="py-3 pr-4">
-                      KES {v.price.toLocaleString()}
-                    </td>
-                    <td className="py-3 pr-4 capitalize">
-                      {v.availability.toLowerCase().replace("_", " ")}
-                    </td>
-                    <td className="py-3 pr-4">{v.images?.length || 0}</td>
-                    <td className="py-3 flex gap-3">
-                      <Link
-                        to={`/admin/vehicles/${v.id}/edit`}
-                        className="text-accent hover:underline"
-                      >
-                        Edit
-                      </Link>
-                      <button
-                        onClick={() => handleDelete(v.id)}
-                        className="text-red-400 hover:underline"
-                      >
-                        Delete
-                      </button>
-                    </td>
-                  </tr>
-                ))}
+                {vehicles.map((v) => {
+                  const quantity = v.quantity ?? 1;
+                  const isSoldOut = quantity <= 0;
+                  return (
+                    <tr key={v.id} className="border-b border-charcoal-800">
+                      <td className="py-3 pr-4">
+                        {v.year} {v.make} {v.model}
+                      </td>
+                      <td className="py-3 pr-4 text-ivory/60">
+                        {v.stockNumber}
+                      </td>
+                      <td className="py-3 pr-4">
+                        KES {v.price.toLocaleString()}
+                      </td>
+                      <td className="py-3 pr-4">
+                        {isSoldOut ? (
+                          <span className="text-red-400">Sold Out</span>
+                        ) : (
+                          <span className="capitalize">
+                            {v.availability.toLowerCase().replace("_", " ")}
+                          </span>
+                        )}
+                      </td>
+                      <td className="py-3 pr-4">{quantity}</td>
+                      <td className="py-3 flex gap-3">
+                        <Link
+                          to={`/admin/vehicles/${v.id}/edit`}
+                          className="text-accent hover:underline"
+                        >
+                          Edit
+                        </Link>
+                        {!isSoldOut && (
+                          <button
+                            onClick={() => handleSellOne(v)}
+                            className="text-amber-400 hover:underline"
+                          >
+                            Mark One Sold
+                          </button>
+                        )}
+                        <button
+                          onClick={() => handleDelete(v.id)}
+                          className="text-red-400 hover:underline"
+                        >
+                          Delete
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
         )}
       </div>
     </>
+  );
+}
+
+function StatCard({ label, value }) {
+  return (
+    <div className="bg-charcoal-900 border border-charcoal-700 rounded-md p-4">
+      <p className="text-ivory/40 text-xs uppercase tracking-wide mb-1">
+        {label}
+      </p>
+      <p className="font-display text-2xl">{value}</p>
+    </div>
   );
 }
